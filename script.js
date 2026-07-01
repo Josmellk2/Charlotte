@@ -513,12 +513,14 @@ const wishesList = document.getElementById('wishes-list');
 // Firebase Configuration: The user can replace this placeholder config with their real Firebase Config!
 // If left as is, the page automatically falls back to using LocalStorage gracefully.
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAOYHNG7ej5Qec-q8wN8rRImc1ryQbGS34",
+  authDomain: "charlotte-7-cumple.firebaseapp.com",
+  databaseURL: "https://charlotte-7-cumple-default-rtdb.firebaseio.com",
+  projectId: "charlotte-7-cumple",
+  storageBucket: "charlotte-7-cumple.firebasestorage.app",
+  messagingSenderId: "1004051238669",
+  appId: "1:1004051238669:web:6d059ca9fc259dab4c6a44",
+  measurementId: "G-9FMRD2KEBX"
 };
 
 let db = null;
