@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz 7º Cumpleaños Princesa Charlotte! 👑✨</title>
+    <meta name="description" content="Una página web mágica y encantada para celebrar el séptimo cumpleaños de la princesa Charlotte, rodeada de unicornios, ardillas y pajaritos del bosque.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Fullscreen Canvas for Sparks & Confetti -->
+    <canvas id="sparkle-canvas"></canvas>
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Music and Sound Synthesizer Controller -->
+    <div class="music-control-panel" id="music-control">
+        <button id="btn-toggle-music" class="music-btn" aria-label="Reproducir o pausar música mágica">
+            <span class="music-icon">🎵</span>
+            <span class="music-status-text">Música: Apagada</span>
+        </button>
+    </div>
+
+    <!-- Preamble: Welcome Magic Curtain Overlay -->
+    <div id="magic-curtain" class="curtain-overlay">
+        <div class="curtain-content">
+            <div class="curtain-sparkles">✨</div>
+            <h1 class="curtain-title">El Bosque Mágico de Charlotte</h1>
+            <p class="curtain-subtitle">Cumple 7 años y el bosque tiene sorpresas preparadas para ella...</p>
+            <div class="tiara-container">👑</div>
+            <button id="btn-enter-forest" class="enter-btn">Entrar al Bosque Mágico ✨</button>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main id="main-container">
+        <!-- Section 1: Hero Parallax Welcome -->
+        <section class="section-forest-entrance" id="hero-section">
+            <div class="section-bg-blur"></div>
+            <div class="hero-wrapper">
+                <h2 class="hero-title animate-pop">¡Feliz 7º Cumpleaños Princesa Charlotte!</h2>
+                <p class="hero-desc">Desplázate hacia abajo para explorar el bosque y apagar las velas de tu pastel mágico.</p>
+                <div class="scroll-indicator">
+                    <span class="arrow">↓</span>
+                    <p>Baja con cuidado...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Princess Charlotte Storytelling (Parallax Card) -->
+        <section class="section-princess-intro" id="princess-section">
+            <div class="princess-parallax-wrapper">
+                <div class="princess-portrait-frame">
+                    <!-- Charlotte Princess Image -->
+                    <img src="assets/princess_charlotte.png" alt="Charlotte transformada en una hermosa princesa de cuento de hadas" class="princess-image">
+                    <div class="sparkle-decorations">
+                        <span class="sparkle-star s1">✨</span>
+                        <span class="sparkle-star s2">✨</span>
+                        <span class="sparkle-star s3">✨</span>
+                    </div>
+                </div>
+                <div class="princess-story-card">
+                    <h3>Érase una vez...</h3>
+                    <p>En el corazón de un bosque lleno de magia y luz, vive una dulce princesa llamada <strong>Charlotte</strong>.</p>
+                    <p>Hoy, 1 de julio, el bosque entero brilla con un resplandor dorado porque Charlotte cumple sus primeros <strong>7 maravillosos años</strong>.</p>
+                    <p>Los árboles susurran canciones alegres, los unicornios corren felices y los animalitos del bosque se han reunido para desearle un año lleno de magia, risas y aventuras brillantes.</p>
+                    <div class="royal-signature">¡Feliz Cumpleaños! 👑</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Interactive Forest Animals -->
+        <section class="section-forest-friends" id="animals-section">
+            <div class="section-header">
+                <h2>Los Amigos del Bosque</h2>
+                <p>Haz clic sobre cada animalito para escuchar su saludo mágico para Charlotte.</p>
+            </div>
+            
+            <div class="animals-grid">
+                <!-- Card 1: Unicornio -->
+                <button class="animal-card" id="card-unicorn" aria-label="Ver el deseo del unicornio">
+                    <div class="animal-emoji">🦄</div>
+                    <h4>El Unicornio Destello</h4>
+                    <p class="animal-quote">"¡Charlotte, que tus sueños siempre vuelen alto sobre arcos de colores y purpurina brillante! 🌈"</p>
+                    <span class="click-badge">Tócame ✨</span>
+                </button>
+
+                <!-- Card 2: Ardilla -->
+                <button class="animal-card" id="card-squirrel" aria-label="Ver el deseo de la ardilla">
+                    <div class="animal-emoji">🐿️</div>
+                    <h4>La Ardilla Campanilla</h4>
+                    <p class="animal-quote">"¡He recolectado los 7 deseos más felices del bosque y los he guardado en esta pequeña nuez para ti! 🌰"</p>
+                    <span class="click-badge">Tócame ✨</span>
+                </button>
+
+                <!-- Card 3: Pajarito -->
+                <button class="animal-card" id="card-bird" aria-label="Ver el deseo del pajarito">
+                    <div class="animal-emoji">🐦</div>
+                    <h4>El Pajarito Melodía</h4>
+                    <p class="animal-quote">"¡Pío, pío! Vuelo alto hoy para cantar una dulce melodía de cumpleaños solo para ti, Princesa. 🎶"</p>
+                    <span class="click-badge">Tócame ✨</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Section 4: Interactive Birthday Cake -->
+        <section class="section-birthday-cake" id="cake-section">
+            <div class="cake-container-wrapper">
+                <div class="cake-header">
+                    <h2>Apaga las Velas de tu Pastel Castle 🏰</h2>
+                    <p>Haz clic en las 7 velas para soplarlas una por una. ¡Pide un deseo antes de la última!</p>
+                    <div class="candles-counter-badge">
+                        Velas encendidas: <span id="candles-counter">7</span>
+                    </div>
+                </div>
+
+                <div class="cake-interactive-area">
+                    <!-- The Cake Image Container -->
+                    <div class="cake-image-container">
+                        <img src="assets/princess_birthday_cake.png" alt="Un pastel de cumpleaños de fantasía en forma de castillo con 7 velas" class="cake-image">
+                        
+                        <!-- Custom CSS Ribbon to precisely cover original text and display Charlotte -->
+                        <div class="custom-cake-ribbon">
+                            <span class="ribbon-text">¡Feliz 7º Cumpleaños Charlotte! 👑</span>
+                        </div>
+
+                        <!-- 7 Interactive SVG Flames positioned perfectly over the candles -->
+                        <div class="candles-interactive-container">
+                            <!-- Candle 1 -->
+                            <button class="candle-flame-btn" id="flame-1" aria-label="Apagar vela 1" style="top: 25.5%; left: 37.2%;">
+                                <div class="flame-element"></div>
+                            </button>
+                            <!-- Candle 2 -->
+                            <button class="candle-flame-btn" id="flame-2" aria-label="Apagar vela 2" style="top: 27.5%; left: 40.2%;">
+                                <div class="flame-element"></div>
+                            </button>
+                            <!-- Candle 3 -->
+                            <button class="candle-flame-btn" id="flame-3" aria-label="Apagar vela 3" style="top: 29.5%; left: 43.5%;">
+                                <div class="flame-element"></div>
+                            </button>
+                            <!-- Candle 4 -->
+                            <button class="candle-flame-btn" id="flame-4" aria-label="Apagar vela 4" style="top: 30.5%; left: 50.2%;">
+                                <div class="flame-element"></div>
+                            </button>
+                            <!-- Candle 5 -->
+                            <button class="candle-flame-btn" id="flame-5" aria-label="Apagar vela 5" style="top: 29.5%; left: 55.5%;">
+                                <div class="flame-element"></div>
+                            </button>
+                            <!-- Candle 6 -->
+                            <button class="candle-flame-btn" id="flame-6" aria-label="Apagar vela 6" style="top: 27.5%; left: 58.5%;">
+                                <div class="flame-element"></div>
+                            </button>
+                            <!-- Candle 7 -->
+                            <button class="candle-flame-btn" id="flame-7" aria-label="Apagar vela 7" style="top: 25.5%; left: 61.2%;">
+                                <div class="flame-element"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reset button to relight candles -->
+                <div class="cake-controls">
+                    <button id="btn-relight" class="secondary-btn hide">Encender velas de nuevo 🔥</button>
+                </div>
+            </div>
+
+            <!-- Fullscreen Celebration Modal when all candles are blown -->
+            <div id="celebration-modal" class="modal-overlay hide">
+                <div class="modal-content animate-zoom">
+                    <div class="modal-crown">👑</div>
+                    <h3>¡Pide tu Deseo, Princesa Charlotte! 🎂</h3>
+                    <p class="modal-birthday-wishes">¡Que este año esté lleno de magia, sonrisas, unicornios y felicidad infinita! El bosque celebra tu séptimo cumpleaños.</p>
+                    <div class="confetti-emoji">🎉✨🎈💖✨🎉</div>
+                    <button id="btn-close-celebration" class="primary-btn">¡Que se cumpla el deseo! 🌟</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Ancient Scroll Wishes Guestbook -->
+        <section class="section-guestbook" id="wishes-section">
+            <div class="scroll-container">
+                <div class="scroll-wood-roller top"></div>
+                
+                <div class="scroll-paper">
+                    <h2>Libro de los Buenos Deseos</h2>
+                    <p class="guestbook-intro">Deja un mensaje mágico y de felicitación en el pergamino del bosque para Charlotte.</p>
+                    
+                    <!-- Write wish form -->
+                    <form id="form-wish" class="wish-form">
+                        <div class="form-group">
+                            <label for="input-author">Tu Nombre:</label>
+                            <input type="text" id="input-author" placeholder="Ej. Tía María, Abuelito..." required maxlength="40">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-message">Tu Deseo Mágico:</label>
+                            <textarea id="input-message" rows="3" placeholder="Escribe tu mensaje de cumpleaños para Charlotte..." required maxlength="300"></textarea>
+                        </div>
+                        <button type="submit" class="submit-wish-btn">Enviar Deseo ✨</button>
+                    </form>
+
+                    <!-- Wishes List -->
+                    <div class="wishes-board">
+                        <h3>Deseos en el Pergamino</h3>
+                        <div id="wishes-list" class="wishes-list-container">
+                            <!-- Messages will be populated here via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-wood-roller bottom"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="forest-footer">
+        <p>Hecho con amor y magia de hadas para Charlotte en su 7º cumpleaños 💖🌲🦄</p>
+    </footer>
+
+    <!-- Main JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
