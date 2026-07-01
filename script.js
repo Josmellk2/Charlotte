@@ -1,3 +1,7 @@
+// Import Firebase SDK from CDN
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 // ==========================================
 // 1. SOUND SYNTHESIZER (WEB AUDIO API)
 // ==========================================
@@ -506,7 +510,33 @@ const inputAuthor = document.getElementById('input-author');
 const inputMessage = document.getElementById('input-message');
 const wishesList = document.getElementById('wishes-list');
 
-// Default initial wishes representing animals and family
+// Firebase Configuration: The user can replace this placeholder config with their real Firebase Config!
+// If left as is, the page automatically falls back to using LocalStorage gracefully.
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+let db = null;
+let isFirebaseEnabled = false;
+
+// Check if configuration has been filled out
+if (firebaseConfig.projectId && firebaseConfig.projectId !== "YOUR_PROJECT_ID") {
+    try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        isFirebaseEnabled = true;
+        console.log("Firebase Firestore initialized successfully! Listening for real-time wishes.");
+    } catch (e) {
+        console.warn("Failed to initialize Firebase, falling back to LocalStorage:", e);
+    }
+}
+
+// Default initial wishes representing animals and fantasy characters
 const defaultWishes = [
     {
         author: "El Hada del Bosque",
@@ -520,15 +550,13 @@ const defaultWishes = [
     }
 ];
 
-function loadWishes() {
-    let savedWishes = localStorage.getItem('charlotte_birthday_wishes');
-    let wishes = savedWishes ? JSON.parse(savedWishes) : defaultWishes;
+// Helper to render wishes on the paper scroll
+function renderWishesList(wishes) {
+    // Clear container
+    wishesList.innerHTML = '';
     
     // Sort by date descending
     wishes.sort((a, b) => b.date - a.date);
-    
-    // Clear container
-    wishesList.innerHTML = '';
     
     // Populate
     wishes.forEach(wish => {
@@ -549,33 +577,54 @@ function loadWishes() {
     });
 }
 
-formWish.addEventListener('submit', (e) => {
+// Load and sync wishes
+function loadWishes() {
+    if (isFirebaseEnabled && db) {
+        // Query Firestore collection 'wishes' ordered by date desc, limit to 50
+        const wishesRef = collection(db, "wishes");
+        const q = query(wishesRef, orderBy("date", "desc"), limit(50));
+        
+        // Listen in real-time
+        onSnapshot(q, (snapshot) => {
+            let wishes = [];
+            snapshot.forEach((doc) => {
+                wishes.push(doc.data());
+            });
+            
+            // If empty, show default animal wishes
+            if (wishes.length === 0) {
+                wishes = [...defaultWishes];
+            }
+            renderWishesList(wishes);
+        }, (error) => {
+            console.error("Firestore onSnapshot error, falling back to LocalStorage:", error);
+            loadLocalStorageWishes();
+        });
+    } else {
+        loadLocalStorageWishes();
+    }
+}
+
+function loadLocalStorageWishes() {
+    let savedWishes = localStorage.getItem('charlotte_birthday_wishes');
+    let wishes = savedWishes ? JSON.parse(savedWishes) : defaultWishes;
+    renderWishesList(wishes);
+}
+
+formWish.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const author = inputAuthor.value.trim();
     const message = inputMessage.value.trim();
     
     if (author && message) {
-        let savedWishes = localStorage.getItem('charlotte_birthday_wishes');
-        let wishes = savedWishes ? JSON.parse(savedWishes) : defaultWishes;
-        
         const newWish = {
             author: author,
             message: message,
             date: Date.now()
         };
         
-        wishes.push(newWish);
-        localStorage.setItem('charlotte_birthday_wishes', JSON.stringify(wishes));
-        
-        // Clear fields
-        inputAuthor.value = '';
-        inputMessage.value = '';
-        
-        // Reload list
-        loadWishes();
-        
-        // Sound and particle celebration
+        // Audio and visual chime feedback
         playMagicChime();
         
         // Spawn sparkles at scroll guestbook location
@@ -586,10 +635,30 @@ formWish.addEventListener('submit', (e) => {
                 scrollRect.top + (Math.random() - 0.5)*50 + window.scrollY
             ));
         }
+
+        try {
+            if (isFirebaseEnabled && db) {
+                // Save to Firebase Firestore collection 'wishes'
+                await addDoc(collection(db, "wishes"), newWish);
+            } else {
+                // Fallback to LocalStorage
+                let savedWishes = localStorage.getItem('charlotte_birthday_wishes');
+                let wishes = savedWishes ? JSON.parse(savedWishes) : [...defaultWishes];
+                wishes.push(newWish);
+                localStorage.setItem('charlotte_birthday_wishes', JSON.stringify(wishes));
+                loadLocalStorageWishes();
+            }
+        } catch (err) {
+            console.error("Error saving wish:", err);
+        }
+        
+        // Clear input fields
+        inputAuthor.value = '';
+        inputMessage.value = '';
     }
 });
 
-// Load wishes on load
+// Load wishes on start
 loadWishes();
 
 // ==========================================
