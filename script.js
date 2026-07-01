@@ -509,11 +509,6 @@ const wishesList = document.getElementById('wishes-list');
 // Default initial wishes representing animals and family
 const defaultWishes = [
     {
-        author: "Mamá y Papá",
-        message: "¡Feliz 7º cumpleaños, nuestra hermosa princesita! Que tu día sea tan dulce, brillante y mágico como tú. Te amamos infinito. 💕👑",
-        date: Date.now() - 1000 * 60 * 60 * 2 // 2 hours ago
-    },
-    {
         author: "El Hada del Bosque",
         message: "¡Mis mejores polvos de estrellas para ti hoy! Deseo que siempre sonrías y que nunca dejes de soñar. ✨🦋",
         date: Date.now() - 1000 * 60 * 60 * 5 // 5 hours ago
